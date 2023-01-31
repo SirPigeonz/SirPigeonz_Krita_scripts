@@ -31,6 +31,7 @@ def create_bloom_layer():
     #print(transparency_mask.channels())
     #bloom_layer.addChildNode(transparency_mask, None)
     bloom_layer.addChildNode(blur_mask, None)
+    bloom_layer.setBlendingMode("screen")
     parent.addChildNode(bloom_layer, N)
     
     
