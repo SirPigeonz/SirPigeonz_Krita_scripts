@@ -200,27 +200,47 @@ class LightSystem:
         ambient_darken_clone.setOpacity(63)
         
         # Create LS Sculpt groups Erase nodes
-        main_light_erase = D.createNode(self._main_light_name + " Erase", 'paintlayer')
-        rim_light_erase = D.createNode(self._rim_light_name + " Erase", 'paintlayer')
-        bounce_light_erase = D.createNode(self._bounce_light_name + " Erase", 'paintlayer')
+        main_light_erase_group = D.createNode(self._main_light_name + " Erase", 'grouplayer')
+        rim_light_erase_group = D.createNode(self._rim_light_name + " Erase", 'grouplayer')
+        bounce_light_erase_group = D.createNode(self._bounce_light_name + " Erase", 'grouplayer')
 
-        main_light_erase.setBlendingMode("erase")
-        rim_light_erase.setBlendingMode("erase")
-        bounce_light_erase.setBlendingMode("erase")
+        main_light_erase_group.setBlendingMode("erase")
+        rim_light_erase_group.setBlendingMode("erase")
+        bounce_light_erase_group.setBlendingMode("erase")
 
-        main_light_erase.setPixelData(pixel_buffer_red, 0, 0, D.width(), D.height())
-        rim_light_erase.setPixelData(pixel_buffer_red, 0, 0, D.width(), D.height())
-        bounce_light_erase.setPixelData(pixel_buffer_red, 0, 0, D.width(), D.height())
+        main_light_erase_0 = D.createNode("______", 'paintlayer')
+        rim_light_erase_0 = D.createNode("______", 'paintlayer')
+        bounce_light_erase_0 = D.createNode("______", 'paintlayer')
+
+        main_light_erase_1 = D.createNode("Erase", 'paintlayer')
+        rim_light_erase_1 = D.createNode("Erase", 'paintlayer')
+        bounce_light_erase_1 = D.createNode("Erase", 'paintlayer')
+
+        main_light_erase_1.setBlendingMode("erase")
+        rim_light_erase_1.setBlendingMode("erase")
+        bounce_light_erase_1.setBlendingMode("erase")
+
+        main_light_erase_0.setPixelData(pixel_buffer_red, 0, 0, D.width(), D.height())
+        rim_light_erase_0.setPixelData(pixel_buffer_red, 0, 0, D.width(), D.height())
+        bounce_light_erase_0.setPixelData(pixel_buffer_red, 0, 0, D.width(), D.height())
+
+        main_light_erase_group.addChildNode(main_light_erase_0, None)
+        rim_light_erase_group.addChildNode(rim_light_erase_0, None)
+        bounce_light_erase_group.addChildNode(bounce_light_erase_0, None)
+
+        main_light_erase_group.addChildNode(main_light_erase_1, main_light_erase_group.childNodes()[-1])
+        rim_light_erase_group.addChildNode(rim_light_erase_1, rim_light_erase_group.childNodes()[-1])
+        bounce_light_erase_group.addChildNode(bounce_light_erase_1, bounce_light_erase_group.childNodes()[-1])
 
         # Finalize LS layers Sculpt groups.
         main_light_sculpt.addChildNode(main_light_clone, None)
-        main_light_sculpt.addChildNode(main_light_erase, main_light_sculpt.childNodes()[-1])
+        main_light_sculpt.addChildNode(main_light_erase_group, main_light_sculpt.childNodes()[-1])
 
         rim_light_sculpt.addChildNode(rim_light_clone, None)
-        rim_light_sculpt.addChildNode(rim_light_erase, rim_light_sculpt.childNodes()[-1])
+        rim_light_sculpt.addChildNode(rim_light_erase_group, rim_light_sculpt.childNodes()[-1])
 
         bounce_light_sculpt.addChildNode(bounce_light_clone, None)
-        bounce_light_sculpt.addChildNode(bounce_light_erase, bounce_light_sculpt.childNodes()[-1])
+        bounce_light_sculpt.addChildNode(bounce_light_erase_group, bounce_light_sculpt.childNodes()[-1])
         
         # Create LS layers Sculpt groups Power clone.
         main_light_sculpt_power = D.createCloneLayer(main_light_sculpt.name() + " Power Clone", main_light_sculpt)
